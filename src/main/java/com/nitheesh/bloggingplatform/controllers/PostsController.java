@@ -10,6 +10,7 @@ import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class PostsController {
     @PreAuthorize("hasRole('AUTHOR')")
     @PostMapping
     public BlogPostResponse createPost(@RequestBody BlogPostRequest blogPostRequest, HttpServletRequest request){
+        System.out.println("Triggered");
         return blogsService.post(blogPostRequest,request);
     }
 

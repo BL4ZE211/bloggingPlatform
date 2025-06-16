@@ -35,7 +35,8 @@ public class BlogsService {
         blogPostResponse.setContent(blogPosts.getContent());
         blogPostResponse.setPostId(blogPosts.getId());
         blogPostResponse.setAuthorName(blogPosts.getAuthor().getName());
-
+        blogPostResponse.setStatus(blogPosts.getStatus());
+        blogPostResponse.setCreatedAt(blogPosts.getCreatedAt());
         return blogPostResponse;
     }
 

@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +31,8 @@ public class CommnetsService {
 
     @Autowired
     private CommentsRepository commentsRepository;
+
+
 
     public CommentResponse createComment(CommentRequest commentRequest, HttpServletRequest request) {
         BlogPosts blogPosts = blogPostsRepository.findById(commentRequest.getPostId()).orElseThrow(
@@ -65,8 +68,14 @@ public class CommnetsService {
         return commentResponse;
     }
 
-    public List<Comments> getAllComments() {
-        return commentsRepository.findAll();
+    public List<CommentResponse> getAllComments() {
+        List<CommentResponse> changedallComments = new ArrayList<>();
+
+        for(Comments comment: commentsRepository.findAll()){
+            changedallComments.add(mapToDto(comment));
+        }
+
+        return changedallComments;
     }
 
     public CommentResponse getCommentById(long id) {

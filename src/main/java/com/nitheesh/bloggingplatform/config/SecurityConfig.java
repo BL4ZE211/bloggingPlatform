@@ -5,6 +5,7 @@ import com.nitheesh.bloggingplatform.security.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -32,8 +33,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/register", "/api/login").permitAll()
-                        .requestMatchers("/api/comments/**").hasAnyRole("AUTHOR","EDITOR")
+                        .requestMatchers("/api/comments/**").hasAnyRole("AUTHOR","EDITOR","USER")
+                        .requestMatchers(HttpMethod.GET,"/api/posts/**").hasRole("USER")
                         .requestMatchers("/api/posts/**").hasAnyRole("AUTHOR","EDITOR")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(customDetailsService)
