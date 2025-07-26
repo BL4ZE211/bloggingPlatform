@@ -12,10 +12,12 @@ import com.nitheesh.bloggingplatform.repository.UserRepository;
 import com.nitheesh.bloggingplatform.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommnetsService {
@@ -58,7 +60,7 @@ public class CommnetsService {
 
     }
 
-    private CommentResponse mapToDto(Comments comments) {
+    private static CommentResponse mapToDto(Comments comments) {
         CommentResponse commentResponse = new CommentResponse();
         commentResponse.setContent(comments.getContent());
         commentResponse.setPostId(comments.getPosts().getId());
@@ -69,13 +71,11 @@ public class CommnetsService {
     }
 
     public List<CommentResponse> getAllComments() {
-        List<CommentResponse> changedallComments = new ArrayList<>();
+        List<Comments> allComments = commentsRepository.findAll();
 
-        for(Comments comment: commentsRepository.findAll()){
-            changedallComments.add(mapToDto(comment));
-        }
 
-        return changedallComments;
+
+        return allComments.stream().map(CommnetsService::mapToDto).collect(Collectors.toList());
     }
 
     public CommentResponse getCommentById(long id) {

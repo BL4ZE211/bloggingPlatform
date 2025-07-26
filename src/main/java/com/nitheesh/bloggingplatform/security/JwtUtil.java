@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private String SECERT_KEY = "superdupermeganeggaspidermansydeneysweenymeganfoxironmancaptainamerica";
+    private String SECERT_KEY = "thisisaverysecretkeyabcdeqwrtddugfcdt6dugvhoiuhjbjblh";
     private int EXPIRATION_IN_MS = 1000*60*60*24;
 
     public String generateToken(String email,String role){

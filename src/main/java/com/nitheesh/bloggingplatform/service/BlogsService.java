@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BlogsService {
@@ -62,8 +63,14 @@ public class BlogsService {
         return  mapToDto(blogPosts);
     }
 
-    public List<BlogPosts> getAllPosts() {
-        return blogPostsRepository.findAll();
+    public List<BlogPostResponse> getAllPosts() {
+        return blogPostsRepository.findAll()
+                .stream().map(post -> BlogPostResponse.builder()
+                        .title(post.getTitle())
+                        .content(post.getContent())
+                        .authorName(post.getAuthor().getName())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     public BlogPostResponse getPostByid(long id) {

@@ -4,6 +4,7 @@ import com.nitheesh.bloggingplatform.Dto.UserAuthDto;
 import com.nitheesh.bloggingplatform.Dto.UserLoginDto;
 import com.nitheesh.bloggingplatform.Dto.UserRegisterDto;
 import com.nitheesh.bloggingplatform.Dto.UserResponseDto;
+import com.nitheesh.bloggingplatform.annotation.LogExecutionTime;
 import com.nitheesh.bloggingplatform.config.SecurityConfig;
 import com.nitheesh.bloggingplatform.entity.Users;
 import com.nitheesh.bloggingplatform.exception.ResourceNotFoundException;
@@ -44,9 +45,10 @@ public class UserService {
         return userResponseDto;
     }
 
+    @LogExecutionTime
     public UserResponseDto register(UserRegisterDto userRegisterDto) {
         if(userRepository.existsByEmail(userRegisterDto.getEmail())){
-            throw new UserWithEmailAlreadyExists("User with email "+userRegisterDto.getEmail()+"exists");
+            throw new UserWithEmailAlreadyExists("User with email "+userRegisterDto.getEmail()+" exists");
         }
 
         Users users = new Users();
@@ -59,7 +61,7 @@ public class UserService {
 
         return mapToDto(users);
     }
-
+    @LogExecutionTime
     public UserAuthDto login(UserLoginDto userLoginDto) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userLoginDto.getEmail(),userLoginDto.getPassword())
