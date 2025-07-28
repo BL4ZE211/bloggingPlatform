@@ -37,7 +37,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/comments/**").hasAnyRole("AUTHOR","EDITOR","USER")
-                        .requestMatchers(HttpMethod.GET,"/api/posts/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET,"/api/posts/**").hasAnyRole("USER","AUTHOR","EDITOR")
                         .requestMatchers("/api/posts/**").hasAnyRole("AUTHOR","EDITOR")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

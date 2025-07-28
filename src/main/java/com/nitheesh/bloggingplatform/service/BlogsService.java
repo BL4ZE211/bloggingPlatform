@@ -66,6 +66,9 @@ public class BlogsService {
     public List<BlogPostResponse> getAllPosts() {
         return blogPostsRepository.findAll()
                 .stream().map(post -> BlogPostResponse.builder()
+                        .postId(post.getId())
+                        .status(post.getStatus())
+                        .createdAt(post.getCreatedAt())
                         .title(post.getTitle())
                         .content(post.getContent())
                         .authorName(post.getAuthor().getName())
@@ -102,6 +105,7 @@ public class BlogsService {
         BlogPosts existingblogPosts = blogPostsRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("No post with id : "+ id));
         existingblogPosts.setStatus(blogStatusUpdateDto.getStatus());
+        blogPostsRepository.save(existingblogPosts);
 
         return mapToDto(existingblogPosts);
     }
